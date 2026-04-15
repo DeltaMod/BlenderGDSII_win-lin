@@ -8,7 +8,7 @@ import customtkinter
 
 #gdsiistl
 import sys # read command-line arguments
-import gdspy # open gds file
+import gdspy # open gds file - Note, requires workload "Desktop development with C++" from MSVC Build Tools from https://visualstudio.microsoft.com/visual-cpp-build-tools/ to be built. 
 import numpy as np # fast math on lots of points
 from stl import mesh # write stl file (python package name is "numpy-stl")
 import triangle # triangulate polygons
@@ -767,6 +767,7 @@ class App(customtkinter.CTk):
             if checking_blender_path_pattern == "":
                 checking_blender_path_pattern = self.selected_blender_path
             if sys.platform == 'win32' and not checking_blender_path_pattern.endswith('blender.exe'):
+                
                 self.label_blender_path.configure(text='Please include the "blender.exe" at the end of the path.')
             else:
                 checking_blender_path = blender_path_search_function(checking_blender_path_pattern)
@@ -777,7 +778,10 @@ class App(customtkinter.CTk):
     def save_blender_path(self):
         try:
             selected_blender_path_pattern = self.blender_path_entry.get()
+            if selected_blender_path_pattern == "":
+                selected_blender_path_pattern = self.selected_blender_path
             if sys.platform == 'win32' and not selected_blender_path_pattern.endswith('blender.exe'):
+                print(selected_blender_path_pattern)
                 self.label_blender_path.configure(text='Please include the "blender.exe" at the end of the path.')
             else:
                 self.selected_blender_path = blender_path_search_function(selected_blender_path_pattern)
